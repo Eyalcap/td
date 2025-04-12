@@ -5,6 +5,7 @@ import requests
 import datetime
 from td.database.models import *
 from td.database.config import db_config
+from security import safe_requests
 
 log = logging.getLogger('td.client')
 
@@ -24,7 +25,7 @@ class TDClient(object):
         '''
         if method == 'get':
             url = '%s%s?%s' % (self.host, path, urllib.parse.urlencode(data))
-            response = requests.get(url=url, headers=self.headers).json()
+            response = safe_requests.get(url=url, headers=self.headers).json()
         elif method == 'post':
             url = self.host + path
             response = requests.post(url=url, data=data, headers=self.headers).json()
