@@ -24,10 +24,10 @@ class TDClient(object):
         '''
         if method == 'get':
             url = '%s%s?%s' % (self.host, path, urllib.parse.urlencode(data))
-            response = requests.get(url=url, headers=self.headers).json()
+            response = requests.get(url=url, headers=self.headers, timeout=60).json()
         elif method == 'post':
             url = self.host + path
-            response = requests.post(url=url, data=data, headers=self.headers).json()
+            response = requests.post(url=url, data=data, headers=self.headers, timeout=60).json()
         else:
             raise Exception('Invalid HTTP Method: %s' % method)
 
@@ -112,7 +112,7 @@ class TDClient(object):
             'redirect_uri': redirect,
         }
         url = 'https://api.tdameritrade.com/v1/oauth2/token'
-        response = requests.post(url, data=payload).json()
+        response = requests.post(url, data=payload, timeout=60).json()
 
         token = response.get('refresh_token')
 
